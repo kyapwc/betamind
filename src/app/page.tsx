@@ -3,9 +3,109 @@
 import Image from "next/image";
 import useUniqViewSeconds from "./hooks/useUniqViewSeconds";
 
+const urls = {
+  default: 'https://664ac067a300e8795d42d1ff.mockapi.io/api/v1/numbers/1',
+  custom: 'https://5cf14f533db50700145db77e.mockapi.io/api/v1/numbers/1',
+}
+
+type ActionButtonProps = {
+  handleUpdate: () => void;
+  handleReset: () => void;
+  loading: boolean;
+}
+
+const ActionButtons = ({
+  handleUpdate,
+  handleReset,
+  loading,
+}: ActionButtonProps) => {
+  return (
+    <div className="flex flex-col items-start py-4 gap-2">
+      <button
+        onClick={handleUpdate}
+        className="px-4 py-2 rounded-lg bg-blue-500 text-white"
+      >
+        Update URL
+      </button>
+      <button
+        onClick={handleReset}
+        className="px-4 py-2 rounded-lg bg-blue-500 text-white"
+      >
+        Reset URL
+      </button>
+      {loading && (<p>Loading...</p>)}
+    </div>
+  )
+}
+
+type SecondsContentProps = {
+  type: 'originalSeconds' | 'uniqueSeconds';
+  seconds: number[] | number[][];
+}
+
+const SecondsContent = ({ type = 'originalSeconds', seconds }: SecondsContentProps) => {
+  if (
+    !seconds?.length ||
+    !['originalSeconds', 'uniqueSeconds'].includes(type)
+  ) return null
+
+  const dataMap: Record<SecondsContentProps['type'], Record<'Title' | 'Content', React.FC>> = {
+    originalSeconds: {
+      Title: () => (
+        <p>
+          Original Seconds (${seconds?.flat()?.length}) numbers and ${seconds?.length} items in <span className="bg-red-200">numbers</span> array
+        </p>
+      ),
+      Content: () => (
+        <>
+          {(seconds as number[][]).map((value, index) => (
+            <span
+              key={index}
+              className="p-2 m-2 text-2xl font-semibold"
+            >
+              {`[${value.join(', ')}]`}
+            </span>
+          ))}
+        </>
+      ),
+    },
+    uniqueSeconds: {
+      Title: () => (
+        <p>Unique Sorted Seconds ({seconds?.length} numbers): </p>
+      ),
+      Content: () => (
+        <>
+          {(seconds as number[]).map((second) => (
+            <span
+              key={second}
+              className="p-2 m-2 bg-gray-200 text-2xl font-semibold"
+            >
+              {second}
+            </span>
+          ))}
+        </>
+      ),
+    },
+  }
+
+  const data = dataMap[type]
+  if (!data) return null
+
+  const { Title, Content } = data
+
+  return (
+    <div className="px-5 py-4 flex flex-wrap items-center">
+      <Title />
+
+      <div className="w-full" />
+
+      <Content />
+    </div>
+  )
+}
+
 export default function Home() {
   const values = useUniqViewSeconds()
-  console.log('values: ', values);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -46,36 +146,19 @@ export default function Home() {
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        {(values?.originalSeconds?.length > 0) && (
-          <div className="px-5 py-4 flex flex-wrap items-center">
-            <p>
-              Original Seconds ({values?.originalSeconds?.flat()?.length} numbers and {values?.originalSeconds?.length} items in <span className="bg-red-200">numbers</span> array):
-            </p>
-            <div className="w-full" />
-            {values?.originalSeconds.map((seconds, index) => (
-              <span
-                key={index}
-                className="p-2 m-2 text-2xl font-semibold"
-              >
-                {`[${seconds.join(', ')}]`}
-              </span>
-            ))}
-          </div>
-        )}
-        {(values?.uniqueSeconds?.length > 0) && (
-          <div className="px-5 py-4 flex flex-wrap items-center">
-            <p>Unique Sorted Seconds ({values?.uniqueSeconds?.length} numbers): </p>
-            <div className="w-full" />
-            {values?.uniqueSeconds.map((second) => (
-              <span
-                key={second}
-                className="p-2 m-2 bg-gray-200 text-2xl font-semibold"
-              >
-                {second}
-              </span>
-            ))}
-          </div>
-        )}
+        <ActionButtons
+          handleUpdate={() => values.setUrl(urls.custom)}
+          handleReset={() => values.setUrl(urls.default)}
+          loading={values.loading}
+        />
+        <SecondsContent
+          type="originalSeconds"
+          seconds={values?.originalSeconds}
+        />
+        <SecondsContent
+          type="uniqueSeconds"
+          seconds={values?.uniqueSeconds}
+        />
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
