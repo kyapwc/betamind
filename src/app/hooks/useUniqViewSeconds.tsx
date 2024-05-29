@@ -26,6 +26,8 @@ const useUniqViewSeconds = (urlProp = 'https://664ac067a300e8795d42d1ff.mockapi.
       setLoading(true)
       setError(null)
 
+      // Just directly clear uniqueSeconds and originalSeconds state in catch
+      // Note: Depending on use-case, will assume this is the right way for this simple implementation
       if (!url?.length) throw new Error('url must not be empty string or undefined')
 
       const response = await fetch(url, { cache: 'no-store' })
