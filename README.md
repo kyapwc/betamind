@@ -20,17 +20,25 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## `useUniqViewSeconds` hook
+The hook is saved into [`./src/app/hooks/useUniqViewSeconds.tsx`](./src/app/hooks/useUniqViewSeconds.tsx)
 
-To learn more about Next.js, take a look at the following resources:
+### How is this implemented?
+- use of react's useEffect, useState and useCallback
+    - states: `[uniqueSeconds, originalSeconds, loading, error]`
+- implement a method to fetch the `numbers` which returns a `number[][]` data-type from `mockapi.io` called `fetchViewSeconds`
+    - this method will utilise `useCallback` to memoize the return value, to prevent unnecessary re-renders towards the component
+- Add new `MockApiResponse` type based on return value
+- How to get the sorted + unique array of numbers from `data.numbers`?
+    - by doing `...new Set(data.numbers.flat())`, the reason `Set` is used is because it will deduplicate the array of numbers for me directly, instead of having to unique the array myself. Furthermore, use of the `.flat()` method to flatten the `number[][]` into `number[]`
+    - After the `new Set(...)` and `.flat()`, we will run a `.sort()` to sort by ascending order
+- the `useUniqViewSeconds` should return 4 variables:
+    - originalSeconds → `number[][]`
+    - uniqueSeconds → `number[]`
+    - loading → `boolean`
+    - error → `Error | null`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Generated output
+Just using the default nextjs `create-next-app` content with additional `div` and `span` to render the difference of the original `originalSeconds` and `uniqueSeconds`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Generated Output](https://raw.githubusercontent.com/kyapwc/betamind/assets/output.png)
