@@ -27,7 +27,7 @@ The hook is saved into [`./src/app/hooks/useUniqViewSeconds.tsx`](./src/app/hook
 - use of react's useEffect, useState and useCallback
     - states: `[uniqueSeconds, originalSeconds, loading, error, url]`
 - implement a method to fetch the `numbers` which returns a `number[][]` data-type from `mockapi.io` called `fetchViewSeconds`
-    - this method will utilise `useCallback` to memoize the return value, to prevent unnecessary re-renders towards the component
+    - this method will utilise `useCallback` to memoize the function based on `url` prop, to prevent unnecessary re-renders towards the hook
 - Add new `MockApiResponse` type based on return value
 - How to get the sorted + unique array of numbers from `data.numbers`?
     - by doing `...new Set(data.numbers.flat())`, the reason `Set` is used is because it will deduplicate the array of numbers for me directly, instead of having to unique the array myself. Furthermore, use of the `.flat()` method to flatten the `number[][]` into `number[]`
