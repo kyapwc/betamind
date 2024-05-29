@@ -9,6 +9,7 @@ type MockApiResponse = {
 
 const useUniqViewSeconds = (url = 'https://664ac067a300e8795d42d1ff.mockapi.io/api/v1/numbers/1') => {
   const [uniqueSeconds, setUniqueSeconds] = useState<number[]>([])
+  const [originalSeconds, setOriginalSeconds] = useState<number[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | any | null>(null)
 
@@ -20,8 +21,11 @@ const useUniqViewSeconds = (url = 'https://664ac067a300e8795d42d1ff.mockapi.io/a
         throw new Error('Failed to fetch numbers from provided url')
       }
       const data: MockApiResponse = await response.json()
+      const flattenedSeconds = data.numbers.flat()
+      setOriginalSeconds(flattenedSeconds)
+
       const uniqueSortedSeconds = [
-        ...new Set(data.numbers.flat()),
+        ...new Set(flattenedSeconds),
       ].sort((a, b) => a - b)
 
       setUniqueSeconds(uniqueSortedSeconds)
@@ -29,6 +33,7 @@ const useUniqViewSeconds = (url = 'https://664ac067a300e8795d42d1ff.mockapi.io/a
     } catch (error) {
       setError(error)
       setUniqueSeconds([])
+      setOriginalSeconds([])
     } finally {
       setLoading(false)
     }
@@ -39,6 +44,7 @@ const useUniqViewSeconds = (url = 'https://664ac067a300e8795d42d1ff.mockapi.io/a
   }, [fetchViewSeconds])
 
   return {
+    originalSeconds,
     uniqueSeconds,
     loading,
     error,
