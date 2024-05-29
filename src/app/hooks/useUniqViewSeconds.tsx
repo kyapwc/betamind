@@ -7,8 +7,9 @@ type MockApiResponse = {
   numbers: Array<Array<number>> | number[][];
 }
 
-const useUniqViewSeconds = (url = 'https://664ac067a300e8795d42d1ff.mockapi.io/api/v1/numbers/1') => {
+const useUniqViewSeconds = (urlProp = 'https://664ac067a300e8795d42d1ff.mockapi.io/api/v1/numbers/1') => {
   const [uniqueSeconds, setUniqueSeconds] = useState<number[]>([])
+  const [url, setUrl] = useState(urlProp)
   /**
    * Used to store the original `numbers` values from the api call for presentation purposes
    * it is useless if the `Quick Coding Test` only needs this file to be submitted.
@@ -53,11 +54,16 @@ const useUniqViewSeconds = (url = 'https://664ac067a300e8795d42d1ff.mockapi.io/a
     fetchViewSeconds()
   }, [fetchViewSeconds])
 
+  useEffect(() => {
+    if (urlProp?.length) setUrl(urlProp)
+  }, [urlProp])
+
   return {
     originalSeconds,
     uniqueSeconds,
     loading,
     error,
+    setUrl,
   }
 }
 
