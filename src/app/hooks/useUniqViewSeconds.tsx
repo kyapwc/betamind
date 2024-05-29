@@ -11,7 +11,7 @@ const useUniqViewSeconds = (url = 'https://664ac067a300e8795d42d1ff.mockapi.io/a
   const [uniqueSeconds, setUniqueSeconds] = useState<number[]>([])
   const [originalSeconds, setOriginalSeconds] = useState<number[][]>([])
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<Error | any | null>(null)
+  const [error, setError] = useState<Error | null>(null)
 
   const fetchViewSeconds = useCallback(async () => {
     try {
