@@ -41,4 +41,4 @@ The hook is saved into [`./src/app/hooks/useUniqViewSeconds.tsx`](./src/app/hook
 ### Generated output
 Just using the default nextjs `create-next-app` content with additional `div` and `span` to render the difference of the original `originalSeconds` and `uniqueSeconds`
 
-![Generated Output](https://raw.githubusercontent.com/kyapwc/betamind/assets/output.png)
+![Generated Output](https://raw.githubusercontent.com/kyapwc/main/betamind/assets/output.png)
