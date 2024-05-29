@@ -48,7 +48,9 @@ export default function Home() {
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
         {(values?.originalSeconds?.length > 0) && (
           <div className="px-5 py-4 flex flex-wrap items-center">
-            <p>Original Seconds ({values?.originalSeconds?.length} numbers): </p>
+            <p>
+              Original Seconds ({values?.originalSeconds?.flat()?.length} numbers and {values?.originalSeconds?.length} items in <span className="bg-red-200">numbers</span> array):
+            </p>
             <div className="w-full" />
             {values?.originalSeconds.map((seconds, index) => (
               <span
