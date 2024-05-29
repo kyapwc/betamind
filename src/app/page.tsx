@@ -11,12 +11,14 @@ const urls = {
 type ActionButtonProps = {
   handleUpdate: () => void;
   handleReset: () => void;
+  error: Error | any | null;
   loading: boolean;
 }
 
 const ActionButtons = ({
   handleUpdate,
   handleReset,
+  error,
   loading,
 }: ActionButtonProps) => {
   return (
@@ -34,6 +36,7 @@ const ActionButtons = ({
         Reset URL
       </button>
       {loading && (<p>Loading...</p>)}
+      {error && (<span>{error.toString()}</span>)}
     </div>
   )
 }
@@ -150,6 +153,7 @@ export default function Home() {
           handleUpdate={() => values.setUrl(urls.custom)}
           handleReset={() => values.setUrl(urls.default)}
           loading={values.loading}
+          error={values.error}
         />
         <SecondsContent
           type="originalSeconds"

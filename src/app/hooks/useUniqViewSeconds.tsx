@@ -24,6 +24,10 @@ const useUniqViewSeconds = (urlProp = 'https://664ac067a300e8795d42d1ff.mockapi.
   const fetchViewSeconds = useCallback(async () => {
     try {
       setLoading(true)
+      setError(null)
+
+      if (!url?.length) throw new Error('url must not be empty string or undefined')
+
       const response = await fetch(url, { cache: 'no-store' })
       if (!response.ok) {
         throw new Error('Failed to fetch numbers from provided url')
@@ -40,7 +44,6 @@ const useUniqViewSeconds = (urlProp = 'https://664ac067a300e8795d42d1ff.mockapi.
 
       setOriginalSeconds(data.numbers)
       setUniqueSeconds(uniqueSortedSeconds)
-      setError(null)
     } catch (error) {
       setError(error)
       setUniqueSeconds([])
