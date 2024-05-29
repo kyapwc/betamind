@@ -53,7 +53,7 @@ const SecondsContent = ({ type = 'originalSeconds', seconds }: SecondsContentPro
     originalSeconds: {
       Title: () => (
         <p>
-          Original Seconds (${seconds?.flat()?.length}) numbers and ${seconds?.length} items in <span className="bg-red-200">numbers</span> array
+          Original Seconds ({seconds?.flat()?.length} numbers and {seconds?.length} items in <span className="bg-red-200">numbers</span> array):
         </p>
       ),
       Content: () => (
