@@ -46,30 +46,34 @@ export default function Home() {
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <div className="px-5 py-4 flex flex-wrap items-center">
-          <p>Original Seconds ({values?.originalSeconds?.length} numbers): </p>
-          <div className="w-full" />
-          {values?.originalSeconds.map((second, index) => (
-            <span
-              key={index}
-              className="p-2 m-2 bg-gray-200 text-2xl font-semibold"
-            >
-              {second}
-            </span>
-          ))}
-        </div>
-        <div className="px-5 py-4 flex flex-wrap items-center">
-          <p>Unique Seconds ({values?.uniqueSeconds?.length} numbers): </p>
-          <div className="w-full" />
-          {values?.uniqueSeconds.map((second) => (
-            <span
-              key={second}
-              className="p-2 m-2 bg-gray-200 text-2xl font-semibold"
-            >
-              {second}
-            </span>
-          ))}
-        </div>
+        {(values?.originalSeconds?.length > 0) && (
+          <div className="px-5 py-4 flex flex-wrap items-center">
+            <p>Original Seconds ({values?.originalSeconds?.length} numbers): </p>
+            <div className="w-full" />
+            {values?.originalSeconds.map((seconds, index) => (
+              <span
+                key={index}
+                className="p-2 m-2 text-2xl font-semibold"
+              >
+                {`[${seconds.join(', ')}]`}
+              </span>
+            ))}
+          </div>
+        )}
+        {(values?.uniqueSeconds?.length > 0) && (
+          <div className="px-5 py-4 flex flex-wrap items-center">
+            <p>Unique Sorted Seconds ({values?.uniqueSeconds?.length} numbers): </p>
+            <div className="w-full" />
+            {values?.uniqueSeconds.map((second) => (
+              <span
+                key={second}
+                className="p-2 m-2 bg-gray-200 text-2xl font-semibold"
+              >
+                {second}
+              </span>
+            ))}
+          </div>
+        )}
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
