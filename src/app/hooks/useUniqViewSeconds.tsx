@@ -9,9 +9,16 @@ type MockApiResponse = {
 
 const useUniqViewSeconds = (url = 'https://664ac067a300e8795d42d1ff.mockapi.io/api/v1/numbers/1') => {
   const [uniqueSeconds, setUniqueSeconds] = useState<number[]>([])
+  /**
+   * Used to store the original `numbers` values from the api call for presentation purposes
+   * it is useless if the `Quick Coding Test` only needs this file to be submitted.
+   *
+   * It is added in just for displaying the generated content into `../page.tsx`.
+   * Can ignore this implementation
+   */
   const [originalSeconds, setOriginalSeconds] = useState<number[][]>([])
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
+  const [error, setError] = useState<Error | any | null>(null)
 
   const fetchViewSeconds = useCallback(async () => {
     try {
